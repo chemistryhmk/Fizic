@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Харківський машинобудівний фаховий коледж | Результуюче опитування з фізики (2 курс)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            background-color: #f8fafc;
+        }
+        .no-copy {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; font-size: 11pt; }
+            .shadow-lg, .shadow-md, .shadow-sm, .shadow-2xl { box-shadow: none !important; }
+            .border { border-color: #cbd5e1 !important; }
+        }
+    </style>
+</head>
+<body class="no-copy bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between" oncontextmenu="return false;">
+
+    <!-- MAIN HEADER -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-lg sticky top-0 z-40 border-b border-indigo-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-500/20 p-2.5 rounded-xl border border-indigo-400/30 shadow-inner">
+                    <i class="fa-solid fa-bolt text-2xl text-amber-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-xs sm:text-sm tracking-wider uppercase text-indigo-200 font-bold">
+                        Харківський машинобудівний фаховий коледж
+                    </h1>
+                    <h2 class="text-base sm:text-lg font-extrabold text-white leading-tight">
+                        Результуюче опитування з фізики (2 курс)
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Student info status bar during exam -->
+            <div id="header-student-info" class="hidden flex items-center gap-4 bg-white/10 px-4 py-1.5 rounded-xl border border-white/15 text-xs sm:text-sm">
+                <div>
+                    <span class="text-indigo-200 text-xs block">Студент:</span>
+                    <span id="student-display-name" class="font-semibold text-white"></span>
+                </div>
+                <div class="h-6 w-px bg-white/20"></div>
+                <div>
+                    <span class="text-indigo-200 text-xs block">Група:</span>
+                    <span id="student-display-group" class="font-semibold text-amber-300"></span>
+                </div>
+                <div class="h-6 w-px bg-white/20"></div>
+                <div class="flex items-center gap-1.5 bg-red-500/20 px-2.5 py-1 rounded-lg border border-red-400/30 text-red-200" title="Штрафні бали за вихід з вкладки">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs"></i>
+                    <span>Порушень: <strong id="violations-count-badge" class="text-white">0</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- START / LOGIN CONTAINER -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6" id="app-container">
+        <div id="login-screen" class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full p-6 sm:p-8 transition-all">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-800 rounded-2xl mb-3 shadow-inner">
+                    <i class="fa-solid fa-charging-station text-2xl"></i>
+                </div>
+                <h1 class="text-xs font-bold uppercase text-indigo-600 tracking-widest mb-1">Харківський машинобудівний фаховий коледж</h1>
+                <h2 class="text-2xl font-extrabold text-slate-900">Результуюче опитування з фізики</h2>
+                <p class="text-sm text-slate-500 mt-1">Курс: 2 | Тема: «Електричний струм у різних середовищах та закони постійного струму»</p>
+            </div>
+
+            <!-- Topic details info box -->
+            <div class="bg-indigo-50/80 border border-indigo-200 rounded-xl p-4 mb-6 text-xs sm:text-sm text-indigo-950">
+                <div class="font-bold flex items-center gap-2 mb-1 text-indigo-900">
+                    <i class="fa-solid fa-book-bookmark text-indigo-600"></i> Тематичні блоки опитування:
+                </div>
+                <p class="leading-relaxed font-medium text-slate-700">
+                    • Сила струму та закон Ома для ділянки і повного кола<br>
+                    • Робота та потужність електричного струму<br>
+                    • Послідовне та паралельне з'єднання провідників (розрахунок кіл)<br>
+                    • Електричний струм у металах, рідинах (електроліз), газах та вакуумі
+                </p>
+            </div>
+
+            <!-- Anti-cheat Rules & Penalty Notification -->
+            <div class="bg-amber-50 border border-amber-200/80 rounded-xl p-4 mb-6 text-xs sm:text-sm text-amber-950">
+                <h3 class="font-extrabold text-amber-900 flex items-center gap-2 mb-2 text-sm">
+                    <i class="fa-solid fa-shield-halved text-amber-600"></i> Правила виконання та регламент опитування:
+                </h3>
+                <ul class="space-y-1.5 list-disc list-inside text-slate-700 font-medium">
+                    <li><strong class="text-slate-900">Одна спроба:</strong> Роботу можна пройти лише 1 раз з одного пристрою.</li>
+                    <li><strong class="text-slate-900">Захист від копіювання:</strong> Текст завдань захищено від копіювання, контекстного меню та виділення.</li>
+                    <li><strong class="text-slate-900">Єдиний варіант:</strong> Опитування містить комплексні тестові та практичні розрахункові завдання.</li>
+                    <li><strong class="text-red-700">Штраф за перемикання вкладок:</strong> Кожна спроба згорнути браузер або відкрити іншу сторінку фіксується та <span class="text-red-600 font-extrabold">знімає 0.5 балів</span> з вашого підсумкового результату!</li>
+                </ul>
+            </div>
+
+            <form id="registration-form" class="space-y-4" onsubmit="startExam(event)">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="student-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                            Прізвище та Ім'я <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-regular fa-user"></i>
+                            </span>
+                            <input type="text" id="student-name" required placeholder="напр. Коваленко Дмитро"
+                                class="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="student-group" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                            Номер / Шифр групи <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </span>
+                            <input type="text" id="student-group" required placeholder="напр. Е-201"
+                                class="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="already-taken-msg" class="hidden p-3.5 bg-red-100 border border-red-300 rounded-xl text-red-800 text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-circle-xmark text-xl"></i>
+                    <span>Ви вже проходили дане тестування! Повторна спроба не допускається.</span>
+                </div>
+
+                <button type="submit" id="start-btn" class="w-full py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-extrabold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 text-base cursor-pointer">
+                    <span>Розпочати опитування</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- EXAM INTERFACE -->
+        <div id="exam-screen" class="hidden w-full max-w-5xl my-4">
+            <!-- Progress & Timer bar -->
+            <div class="bg-white rounded-xl shadow-md p-4 mb-6 border border-slate-200 flex flex-wrap items-center justify-between gap-4 sticky top-16 z-30">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-100 text-indigo-900 font-extrabold px-3 py-1.5 rounded-lg border border-indigo-200 text-sm">
+                        Варіант 1 (Загальний)
+                    </div>
+                    <div class="text-xs text-slate-500 hidden sm:block">
+                        Всього завдань: <span class="font-bold text-slate-800">9</span>
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="flex items-center gap-2 bg-slate-900 text-white px-4 py-1.5 rounded-lg font-mono text-sm sm:text-base font-bold shadow" title="Витрачений час">
+                    <i class="fa-regular fa-clock text-amber-400"></i>
+                    <span id="timer-display">00:00</span>
+                </div>
+
+                <div class="w-full sm:w-auto flex-grow max-w-xs">
+                    <div class="flex justify-between text-xs text-slate-600 mb-1 font-bold">
+                        <span>Прогрес виконання</span>
+                        <span id="progress-text">0 / 9</span>
+                    </div>
+                    <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTIONS FORM -->
+            <form id="exam-form" onsubmit="promptSubmitExam(event)" class="space-y-6">
+
+                <!-- SECTION 1: Single Choice Tasks (1-7) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-7">
+                    <div class="border-b border-slate-200 pb-3 mb-6">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold uppercase px-2.5 py-1 rounded">Частина 1</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2">Завдання з вибором однієї правильної відповіді (Завдання 1-7)</h3>
+                        <p class="text-xs text-slate-500">Уважно прочитайте питання та оберіть один правильний варіант відповіді.</p>
+                    </div>
+
+                    <div class="space-y-8">
+                        <!-- TASK 1 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q1">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">1</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Через поперечний переріз провідника за 5 секунд проходить електричний заряд 20 Кл. Чому дорівнює сила струму в провіднику та яка формула її визначає?
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q1" value="100 А, I = q · t" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) 100 А, I = q · t</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q1" value="4 А, I = q / t" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) 4 А, I = q / t</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q1" value="0.25 А, I = t / q" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) 0.25 А, I = t / q</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q1" value="15 А, I = q - t" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) 15 А, I = q - t</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TASK 2 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q2">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">2</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Як зміниться сила струму в провіднику, якщо напругу на його кінцях збільшити в 3 рази, а опір зменшити в 2 рази?
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q2" value="Збільшиться в 6 разів" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) Збільшиться в 6 разів</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q2" value="Збільшиться в 1.5 рази" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) Збільшиться в 1.5 рази</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q2" value="Зменшиться в 6 разів" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) Зменшиться в 6 разів</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q2" value="Не зміниться" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) Не зміниться</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TASK 3 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q3">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">3</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Електричний спіральний нагрівач опором 50 Ом підключено до мережі 220 В. Яку потужність споживає цей прилад?
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q3" value="968 Вт" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) 968 Вт</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q3" value="11000 Вт" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) 11000 Вт</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q3" value="4.4 Вт" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) 4.4 Вт</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q3" value="2200 Вт" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) 2200 Вт</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TASK 4 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q4">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">4</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Що є основними носіями електричного заряду у рідких електролітах (водних розчинах солей, кислот та лугів)?
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q4" value="Лише вільні електрони" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) Лише вільні електрони</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q4" value="Позитивні та негативні іони" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) Позитивні та негативні іони</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q4" value="Електрони та позитивні іони" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) Електрони та позитивні іони</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q4" value="Лише позитивні іони" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) Лише позитивні іони</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TASK 5 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q5">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">5</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Яке явище лежить в основі роботи вакуумного діода та забезпечує випучування електронного хмаринки з поверхні розжареного катода?
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q5" value="Електролітична дисоціація" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) Електролітична дисоціація</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q5" value="Термоелектронна емісія" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) Термоелектронна емісія</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q5" value="Ударна іонізація" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) Ударна іонізація</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q5" value="Самостійний газовий розряд" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) Самостійний газовий розряд</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TASK 6 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q6">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">6</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Чим пояснюється зростання опору металевих провідників при їх нагріванні?
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q6" value="Зменшенням концентрації вільних електронів" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) Зменшенням концентрації вільних електронів</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q6" value="Збільшенням амплітуди коливань іонів кристалічної ґратки" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) Збільшенням амплітуди коливань іонів кристалічної ґратки</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q6" value="Збільшенням зарядів вільних електронів" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) Збільшенням зарядів вільних електронів</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q6" value="Зменшенням довжини провідника" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) Зменшенням довжини провідника</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TASK 7 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q7">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="bg-slate-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">7</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    При електролізі розчину медного купоросу за 10 хвилин на катоді виділилося 0.66 г міді. Яка сила струму проходила через електролітичну ванну? (Електрохімічний еквівалент міді k = 0.33 мг/Кл)
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 ml-0 sm:ml-8 mt-3">
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q7" value="3.33 А" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">А) 3.33 А</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q7" value="0.2 А" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Б) 0.2 А</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q7" value="2 А" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">В) 2 А</span>
+                                </label>
+                                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg hover:border-indigo-400 cursor-pointer transition">
+                                    <input type="radio" name="q7" value="12 А" onchange="updateProgress()" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2.5 text-sm font-medium">Г) 12 А</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Matching Tasks (Tasks 8-9) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-7">
+                    <div class="border-b border-slate-200 pb-3 mb-6">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold uppercase px-2.5 py-1 rounded">Частина 2</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2">Завдання на встановлення відповідності (Завдання 8-9)</h3>
+                        <p class="text-xs text-slate-500">Зіставте фізичні поняття, закони або характеристики з відповідними категоріями чи математичними формулами.</p>
+                    </div>
+
+                    <div class="space-y-8">
+                        <!-- TASK 8 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q8">
+                            <div class="flex items-start gap-3 mb-4">
+                                <span class="bg-indigo-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">8</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Установіть відповідність між середовищем та основними носіями електричного заряду в ньому:
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-xs sm:text-sm">
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-800 border-b pb-1">Середовище:</div>
+                                    <div><strong>1)</strong> Метали</div>
+                                    <div><strong>2)</strong> Електроліти (розчини)</div>
+                                    <div><strong>3)</strong> Гази (за наявності іонізатора)</div>
+                                    <div><strong>4)</strong> Вакуум (з розжареним катодом)</div>
+                                </div>
+
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1.5">
+                                    <div class="font-bold text-slate-800 border-b pb-1">Носії заряду:</div>
+                                    <div><strong>А)</strong> Вільні електрони, емітовані з катода</div>
+                                    <div><strong>Б)</strong> Вільні електрони та позитивні/негативні іони</div>
+                                    <div><strong>В)</strong> Лише позитивні та негативні іони</div>
+                                    <div><strong>Г)</strong> Вільні «електронні гази» (вільні електрони)</div>
+                                    <div><strong>Д)</strong> Дырки та нейтрони</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 overflow-x-auto">
+                                <table class="w-full text-center text-xs sm:text-sm">
+                                    <thead>
+                                        <tr class="border-b bg-slate-100 text-slate-700 font-bold">
+                                            <th class="p-2 text-left">Середовище</th>
+                                            <th class="p-2">Виберіть відповідну букву</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">1) Метали</td>
+                                            <td class="p-2">
+                                                <select name="q8_1" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">2) Електроліти (розчини)</td>
+                                            <td class="p-2">
+                                                <select name="q8_2" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">3) Гази (за наявності іонізатора)</td>
+                                            <td class="p-2">
+                                                <select name="q8_3" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">4) Вакуум (з розжареним катодом)</td>
+                                            <td class="p-2">
+                                                <select name="q8_4" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TASK 9 -->
+                        <div class="question-block p-4 sm:p-5 bg-slate-50/70 border border-slate-200 rounded-xl" id="q-block-q9">
+                            <div class="flex items-start gap-3 mb-4">
+                                <span class="bg-indigo-800 text-white font-bold rounded-lg px-2.5 py-1 text-xs shrink-0">9</span>
+                                <p class="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed">
+                                    Установіть відповідність між фізичним законом або формулою та її математичним виразом:
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-xs sm:text-sm">
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                    <div class="font-bold text-slate-800 border-b pb-1">Закон / Поняття:</div>
+                                    <div><strong>1)</strong> Закон Ома для ділянки кола</div>
+                                    <div><strong>2)</strong> Закон Джоуля-Ленца</div>
+                                    <div><strong>3)</strong> Перший закон Фарадея для електролізу</div>
+                                    <div><strong>4)</strong> Закон Ома для повного кола</div>
+                                </div>
+
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1.5">
+                                    <div class="font-bold text-slate-800 border-b pb-1">Формула:</div>
+                                    <div><strong>А)</strong> m = k · I · t</div>
+                                    <div><strong>Б)</strong> I = U / R</div>
+                                    <div><strong>В)</strong> Q = I² · R · t</div>
+                                    <div><strong>Г)</strong> I = E / (R + r)</div>
+                                    <div><strong>Д)</strong> P = U / I</div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 overflow-x-auto">
+                                <table class="w-full text-center text-xs sm:text-sm">
+                                    <thead>
+                                        <tr class="border-b bg-slate-100 text-slate-700 font-bold">
+                                            <th class="p-2 text-left">Закон</th>
+                                            <th class="p-2">Виберіть відповідну букву</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">1) Закон Ома для ділянки кола</td>
+                                            <td class="p-2">
+                                                <select name="q9_1" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">2) Закон Джоуля-Ленца</td>
+                                            <td class="p-2">
+                                                <select name="q9_2" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">3) Перший закон Фарадея для електролізу</td>
+                                            <td class="p-2">
+                                                <select name="q9_3" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 font-bold text-left text-slate-700">4) Закон Ома для повного кола</td>
+                                            <td class="p-2">
+                                                <select name="q9_4" onchange="updateProgress()" class="w-full sm:w-auto px-3 py-1.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-800">
+                                                    <option value="">-- Виберіть --</option>
+                                                    <option value="А">А</option><option value="Б">Б</option><option value="В">В</option><option value="Г">Г</option><option value="Д">Д</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON AREA -->
+                <div class="p-4 bg-slate-200/60 rounded-xl border border-slate-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="text-xs text-slate-600 font-medium">
+                        <i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i>
+                        Перевірте всі відповіді перед остаточною здачею роботи.
+                    </div>
+                    <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base cursor-pointer">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Завершити опитування</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- REPORT / RESULT SCREEN -->
+        <div id="report-screen" class="hidden w-full max-w-4xl my-6 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <!-- Printable header banner -->
+            <div class="bg-slate-900 text-white p-6 sm:p-8 border-b border-indigo-800 relative">
+                <div class="flex flex-wrap justify-between items-start gap-4">
+                    <div>
+                        <div class="text-xs uppercase tracking-widest text-amber-400 font-extrabold mb-1">Харківський машинобудівний фаховий коледж</div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold">Звіт з опитування: Електричний струм (2 курс)</h2>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-1">Результуюче опитування перед контрольною роботою</p>
+                    </div>
+                    <div class="no-print">
+                        <button onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-lg shadow transition flex items-center gap-2 cursor-pointer">
+                            <i class="fa-solid fa-print"></i>
+                            <span>Друкувати / Зберегти у PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Student info report badge -->
+                <div class="mt-6 pt-4 border-t border-slate-700/80 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs sm:text-sm">
+                    <div>
+                        <span class="text-slate-400 block text-xs">Студент:</span>
+                        <strong id="rep-student-name" class="text-white text-base"></strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block text-xs">Група:</span>
+                        <strong id="rep-student-group" class="text-amber-300 text-base"></strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block text-xs">Дата та час:</span>
+                        <strong id="rep-timestamp" class="text-white"></strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block text-xs">Порушень вкладок:</span>
+                        <strong id="rep-violations" class="text-red-400"></strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCORE SUMMARY CARDS -->
+            <div class="p-6 sm:p-8 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Final mark -->
+                    <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-5 rounded-2xl border border-indigo-200 text-center flex flex-col justify-center items-center">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-700">Підсумкова оцінка</span>
+                        <div class="my-1">
+                            <span id="rep-final-score" class="text-4xl sm:text-5xl font-extrabold text-indigo-900">0</span>
+                            <span class="text-lg text-indigo-600 font-bold"> / 12</span>
+                        </div>
+                        <span id="rep-score-verbal" class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-200 text-indigo-800">незадовільно</span>
+                    </div>
+
+                    <!-- Raw points -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center flex flex-col justify-center items-center">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Набрані тестові бали</span>
+                        <div class="my-1">
+                            <span id="rep-raw-points" class="text-3xl font-bold text-slate-800">0</span>
+                            <span class="text-sm text-slate-500"> / 15 балів</span>
+                        </div>
+                        <span class="text-xs text-slate-500">Первинний результат завдань</span>
+                    </div>
+
+                    <!-- Penalty info -->
+                    <div class="bg-red-50 p-5 rounded-2xl border border-red-200 text-center flex flex-col justify-center items-center">
+                        <span class="text-xs font-bold uppercase tracking-wider text-red-700">Штрафні відрахування</span>
+                        <div class="my-1">
+                            <span id="rep-penalty-deduction" class="text-3xl font-bold text-red-600">-0.0</span>
+                            <span class="text-sm text-red-500"> б.</span>
+                        </div>
+                        <span class="text-xs text-red-600 font-medium">За вихід з вікна опитування</span>
+                    </div>
+                </div>
+
+                <!-- EXPLANATIONS & MISTAKES ANALYSIS -->
+                <div class="border-t border-slate-200 pt-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-indigo-600"></i> Аналіз знань та теорія для повторення
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        Нижче наведено статус виконання та роз'яснення для тем, у яких були допущені помилки. Прямі ключі відповідей приховано з метою стимулювання самостійного повторення матеріалу.
+                    </p>
+
+                    <div id="rep-explanations-list" class="space-y-4">
+                        <!-- Dynamic error explanations inserted here -->
+                    </div>
+                </div>
+
+                <!-- Footer notice -->
+                <div class="mt-8 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 text-center font-medium">
+                    Електронний протокол складено автоматично системою контролю знань ХМФК.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CHEAT WARNING OVERLAY MODAL -->
+    <div id="cheat-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border-2 border-red-500 transform transition-all">
+            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-red-600">Фіксація порушення дисципліни!</h3>
+            <p class="text-sm text-slate-700 mt-2">
+                Ви залишили вікно опитування або переключилися на іншу вкладку/програму.
+            </p>
+            <div class="my-4 p-3 bg-red-50 border border-red-200 rounded-xl font-bold text-xs sm:text-sm text-red-800">
+                З підсумкової оцінки знято <span class="text-red-600 text-base">0.5 бала</span>!
+            </div>
+            <p class="text-xs text-slate-500 mb-5">Усі спроби згортання фіксуються та відображаються у підсумковому звіті викладача.</p>
+            <button onclick="closeCheatModal()" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow transition cursor-pointer">
+                Зрозуміло, повернутися до опитування
+            </button>
+        </div>
+    </div>
+
+    <!-- CUSTOM SUBMIT CONFIRMATION MODAL -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border border-slate-200">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-paper-plane"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900">Завершити опитування?</h3>
+            <p class="text-sm text-slate-600 mt-2">
+                Ви впевнені, що перевірили усі відповіді та готові сформувати підсумковий звіт?
+            </p>
+            <div class="mt-6 flex gap-3">
+                <button onclick="closeConfirmModal()" class="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition cursor-pointer">
+                    Повернутися
+                </button>
+                <button onclick="executeSubmitExam()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition cursor-pointer">
+                    Так, здати
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="alert-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border border-amber-300">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="alert-title" class="text-lg font-extrabold text-slate-900 mb-2">Повідомлення</h3>
+            <p id="alert-message" class="text-sm text-slate-600 mb-5"></p>
+            <button onclick="closeAlertModal()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition cursor-pointer">
+                Зрозуміло
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        let studentData = {
+            name: '',
+            group: '',
+            startTime: null,
+            endTime: null,
+            violationsCount: 0
+        };
+
+        let timerInterval = null;
+        let elapsedTime = 0;
+        let examSubmitted = false;
+
+        const correctKeys = {
+            q1: "4 А, I = q / t",
+            q2: "Збільшиться в 6 разів",
+            q3: "968 Вт",
+            q4: "Позитивні та негативні іони",
+            q5: "Термоелектронна емісія",
+            q6: "Збільшенням амплітуди коливань іонів кристалічної ґратки",
+            q7: "3.33 А",
+            q8: { "1": "Г", "2": "В", "3": "Б", "4": "А" },
+            q9: { "1": "Б", "2": "В", "3": "А", "4": "Г" }
+        };
+
+        const taskExplanations = {
+            q1: "Теорія для повторення: Сила струму чисельно дорівнює заряду, що проходить через поперечний переріз провідника за одиницю часу: I = q / t.",
+            q2: "Теорія для повторення: За законом Ома (I = U / R) сила струму прямо пропорційна напрузі та обернено пропорційна опору провідника.",
+            q3: "Теорія для повторення: Потужність споживача електричного струму пов'язана з напругою та опором співвідношенням P = U² / R.",
+            q4: "Теорія для повторення: У розчинах та розплавах електролітів відбуваються процеси дисоціації, що утворюють рухомі позитивні та негативні іони.",
+            q5: "Теорія для повторення: Для виходу електронів з металу у вакуум необхідне надання їм кінетичної енергії шляхом нагрівання катода (термоелектронна явищна основа).",
+            q6: "Теорія для повторення: Підвищення температури металу підсилює теплові коливання іонів у вузлах кристалічної ґратки, що створює додатковий опір руху електронів.",
+            q7: "Теорія для повторення: Перший закон Фарадея для електролізу пов'язує масу виділеної речовини із зарядом (m = k·q = k·I·t). Переводьте час у секунди.",
+            q8: "Теорія для повторення: Кожне середовище має власні носії: метали (електрони), електроліти (іони), гази (іони та електрони), вакуум (емітовані електрони).",
+            q9: "Теорія для повторення: Повторіть формулювання та математичні записи основних законів: Ома для ділянки і повного кола, Джоуля-Ленца та Фарадея."
+        };
+
+        function showAlert(title, message) {
+            document.getElementById('alert-title').textContent = title;
+            document.getElementById('alert-message').textContent = message;
+            document.getElementById('alert-modal').classList.remove('hidden');
+        }
+
+        function closeAlertModal() {
+            document.getElementById('alert-modal').classList.add('hidden');
+        }
+
+        function promptSubmitExam(event) {
+            if (event) event.preventDefault();
+            if (examSubmitted) return;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+
+        function executeSubmitExam() {
+            closeConfirmModal();
+            submitExam();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupAntiCheat();
+        });
+
+        function setupAntiCheat() {
+            document.addEventListener('keydown', (e) => {
+                if (
+                    e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 'a' || e.key === 's' || e.key === 'p') ||
+                    e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J'))
+                ) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            document.addEventListener('copy', (e) => e.preventDefault());
+            document.addEventListener('paste', (e) => e.preventDefault());
+            document.addEventListener('cut', (e) => e.preventDefault());
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden && studentData.startTime && !examSubmitted) {
+                    recordViolation();
+                }
+            });
+
+            window.addEventListener('blur', () => {
+                if (studentData.startTime && !examSubmitted) {
+                    recordViolation();
+                }
+            });
+        }
+
+        function recordViolation() {
+            studentData.violationsCount++;
+            document.getElementById('violations-count-badge').textContent = studentData.violationsCount;
+            document.getElementById('cheat-modal').classList.remove('hidden');
+        }
+
+        function closeCheatModal() {
+            document.getElementById('cheat-modal').classList.add('hidden');
+        }
+
+        function checkPreviousAttempt(fullName, group) {
+            const key = `hmfk_phys_test2_${fullName.trim().toLowerCase()}_${group.trim().toLowerCase()}`;
+            return localStorage.getItem(key);
+        }
+
+        function saveAttemptRecord(fullName, group, score) {
+            const key = `hmfk_phys_test2_${fullName.trim().toLowerCase()}_${group.trim().toLowerCase()}`;
+            localStorage.setItem(key, JSON.stringify({
+                score: score,
+                timestamp: new Date().toLocaleString('uk-UA')
+            }));
+        }
+
+        function startExam(event) {
+            event.preventDefault();
+
+            const nameInput = document.getElementById('student-name').value.trim();
+            const groupInput = document.getElementById('student-group').value.trim();
+
+            if (!nameInput || !groupInput) {
+                showAlert('Увага!', 'Будь ласка, заповніть усі поля реєстрації!');
+                return;
+            }
+
+            if (checkPreviousAttempt(nameInput, groupInput)) {
+                document.getElementById('already-taken-msg').classList.remove('hidden');
+                return;
+            }
+
+            studentData.name = nameInput;
+            studentData.group = groupInput;
+            studentData.startTime = new Date();
+
+            document.getElementById('student-display-name').textContent = studentData.name;
+            document.getElementById('student-display-group').textContent = studentData.group;
+
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('header-student-info').classList.remove('hidden');
+            document.getElementById('exam-screen').classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                elapsedTime++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            const formatted = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timer-display').textContent = formatted;
+        }
+
+        function updateProgress() {
+            let answeredCount = 0;
+
+            // Tasks 1-7
+            for (let i = 1; i <= 7; i++) {
+                if (document.querySelector(`input[name="q${i}"]:checked`)) {
+                    answeredCount++;
+                }
+            }
+
+            // Task 8 & 9
+            ['q8', 'q9'].forEach(qKey => {
+                let allMatched = true;
+                for (let k = 1; k <= 4; k++) {
+                    const sel = document.querySelector(`select[name="${qKey}_${k}"]`);
+                    if (!sel || !sel.value) {
+                        allMatched = false;
+                        break;
+                    }
+                }
+                if (allMatched) answeredCount++;
+            });
+
+            document.getElementById('progress-text').textContent = `${answeredCount} / 9`;
+            const percent = (answeredCount / 9) * 100;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+
+        function submitExam() {
+            if (examSubmitted) return;
+
+            examSubmitted = true;
+            clearInterval(timerInterval);
+            studentData.endTime = new Date();
+
+            let rawPoints = 0;
+            const maxRawPoints = 15; // 7(1-7) + 4(q8) + 4(q9)
+            let questionStatus = {};
+
+            const formData = new FormData(document.getElementById('exam-form'));
+
+            // Questions 1-7 evaluation (1 point each)
+            for (let i = 1; i <= 7; i++) {
+                const userChoice = formData.get(`q${i}`);
+                if (userChoice === correctKeys[`q${i}`]) {
+                    rawPoints += 1;
+                    questionStatus[`q${i}`] = true;
+                } else {
+                    questionStatus[`q${i}`] = false;
+                }
+            }
+
+            // Task 8 evaluation (up to 4 points)
+            let task8Points = 0;
+            for (let k = 1; k <= 4; k++) {
+                const selVal = formData.get(`q8_${k}`);
+                if (selVal === correctKeys.q8[`${k}`]) {
+                    task8Points += 1;
+                }
+            }
+            rawPoints += task8Points;
+            questionStatus['q8'] = (task8Points === 4);
+
+            // Task 9 evaluation (up to 4 points)
+            let task9Points = 0;
+            for (let k = 1; k <= 4; k++) {
+                const selVal = formData.get(`q9_${k}`);
+                if (selVal === correctKeys.q9[`${k}`]) {
+                    task9Points += 1;
+                }
+            }
+            rawPoints += task9Points;
+            questionStatus['q9'] = (task9Points === 4);
+
+            // Penalty calculation
+            const penaltyPerViolation = 0.5;
+            const totalPenalty = studentData.violationsCount * penaltyPerViolation;
+
+            // 12-point conversion
+            let score12 = (rawPoints / maxRawPoints) * 12;
+            score12 = Math.max(0, score12 - totalPenalty);
+            score12 = Math.round(score12 * 10) / 10;
+
+            let verbalMark = "незадовільно";
+            if (score12 >= 10) verbalMark = "відмінно";
+            else if (score12 >= 7) verbalMark = "добре";
+            else if (score12 >= 4) verbalMark = "задовільно";
+
+            saveAttemptRecord(studentData.name, studentData.group, score12);
+            renderReport(score12, verbalMark, rawPoints, totalPenalty, questionStatus);
+        }
+
+        function renderReport(finalScore, verbalMark, rawPoints, penalty, questionStatus) {
+            document.getElementById('exam-screen').classList.add('hidden');
+            document.getElementById('report-screen').classList.remove('hidden');
+
+            document.getElementById('rep-student-name').textContent = studentData.name;
+            document.getElementById('rep-student-group').textContent = studentData.group;
+            document.getElementById('rep-timestamp').textContent = new Date().toLocaleString('uk-UA');
+            document.getElementById('rep-violations').textContent = `${studentData.violationsCount} (штраф: -${penalty.toFixed(1)} б.)`;
+
+            document.getElementById('rep-final-score').textContent = finalScore;
+            document.getElementById('rep-score-verbal').textContent = verbalMark.toUpperCase();
+            document.getElementById('rep-raw-points').textContent = Math.round(rawPoints * 10) / 10;
+            document.getElementById('rep-penalty-deduction').textContent = `-${penalty.toFixed(1)}`;
+
+            const container = document.getElementById('rep-explanations-list');
+            container.innerHTML = '';
+
+            const taskTitles = {
+                q1: "Завдання 1: Сила струму та визначення",
+                q2: "Завдання 2: Закон Ома для ділянки кола",
+                q3: "Завдання 3: Потужність споживача",
+                q4: "Завдання 4: Носії заряду в електролітах",
+                q5: "Завдання 5: Електричний струм у вакуумі",
+                q6: "Завдання 6: Температурна залежність опору металів",
+                q7: "Завдання 7: Закон Фарадея для електролізу",
+                q8: "Завдання 8: Відповідність середовищ та носіїв",
+                q9: "Завдання 9: Відповідність законів постійного струму"
+            };
+
+            for (let i = 1; i <= 9; i++) {
+                const qKey = `q${i}`;
+                const isCorrect = questionStatus[qKey];
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-xl border text-xs sm:text-sm ${
+                    isCorrect ? 'bg-emerald-50/60 border-emerald-200' : 'bg-amber-50/80 border-amber-200'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between font-bold mb-1">
+                        <span class="${isCorrect ? 'text-emerald-900' : 'text-amber-950'}">
+                            ${taskTitles[qKey]}
+                        </span>
+                        <span class="px-2.5 py-0.5 rounded-md text-xs font-bold ${
+                            isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-amber-200 text-amber-900'
+                        }">
+                            ${isCorrect ? 'Виконано вірно' : 'Потребує повторення'}
+                        </span>
+                    </div>
+                    ${!isCorrect ? `<p class="text-slate-800 mt-2 leading-relaxed bg-white/90 p-3 rounded-lg border border-amber-200/60 font-medium">${taskExplanations[qKey]}</p>` : '<p class="text-emerald-700 font-semibold mt-1">Теоретичний матеріал засвоєно правильно.</p>'}
+                `;
+
+                container.appendChild(card);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
